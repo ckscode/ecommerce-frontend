@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import "./products.css";
+import "./Products.css";
 import StarRating from "../../Components/Star";
 import { ContextApi } from "../../Api/DataApi";
 import Canvas from "../../Components/Canvas/Canvas";
@@ -18,7 +18,8 @@ const Products = () => {
   };
 
   return (
-    <div className="w-100 justify-content-center">
+    <div id='products' className="w-100 justify-content-center pt-5 products">
+      <h1 className="text-center mb-5 fw-semibold">Products</h1>
       <div className="w-100 px-2 d-flex justify-content-between align-items-center">
         <div
           className="text-secondary fs-5 filter"
@@ -80,7 +81,7 @@ const Products = () => {
                             </span>
                           </span>
                         </div>
-                        <h4 className="my-1">{item.title}</h4>
+                        <h5 className="my-1 fw-semibold">{item.title}</h5>
                         {item.stock < 6 && item.stock > 0 ? (
                           <p className="text-danger my-1">
                             Only {item.stock} left in stock!

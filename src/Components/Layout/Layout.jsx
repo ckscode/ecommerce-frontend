@@ -7,7 +7,7 @@ const Layout = ({ children }) => {
     <div>
       <Navbar />
 
-      <div className="mt-3 position-relative">{children}</div>
+      <div className="position-relative">{children}</div>
     </div>
   );
 };
