@@ -5,9 +5,11 @@ import StarRating from "../../Components/Star";
 import { ContextApi } from "../../Api/DataApi";
 import Canvas from "../../Components/Canvas/Canvas";
 import Modal from "../../Components/Modal/Modal";
+import Carousel from "../../Components/Hero/Carousel";
 
 const Products = () => {
-  const { data, setCategory, category, setData ,getProduct } = useContext(ContextApi);
+  const { data, setCategory, category, setData, getProduct } =
+    useContext(ContextApi);
   const handleCategory = (e) => {
     if (category.includes(e)) {
       setCategory(category.filter((ele) => ele !== e));
@@ -15,8 +17,6 @@ const Products = () => {
       setCategory([...category, e]);
     }
   };
-
-  console.log(data);
 
   return (
     <div className="w-100 justify-content-center">
@@ -54,7 +54,13 @@ const Products = () => {
                     key={item.id}
                     className="col-sm-6 col-md-4 col-lg-3 my-3"
                   >
-                    <div className="card shadow-sm p-1 position-relative" style={{cursor:'pointer'}} onClick={()=>getProduct(item._id)} data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <div
+                      className="card shadow-sm p-1 position-relative"
+                      style={{ cursor: "pointer" }}
+                      onClick={() => getProduct(item._id)}
+                      data-bs-toggle="modal"
+                      data-bs-target="#exampleModal"
+                    >
                       <img
                         className="mx-auto card-img-top"
                         src={item.thumbnail}
@@ -76,8 +82,16 @@ const Products = () => {
                           </span>
                         </div>
                         <h4 className="my-1">{item.title}</h4>
-                        {item.stock<6 && item.stock>0?<p className="text-danger my-1">Only {item.stock} left in stock!</p>:""}
-                        <p className="two-line-text product">{item.description}</p>
+                        {item.stock < 6 && item.stock > 0 ? (
+                          <p className="text-danger my-1">
+                            Only {item.stock} left in stock!
+                          </p>
+                        ) : (
+                          ""
+                        )}
+                        <p className="two-line-text product">
+                          {item.description}
+                        </p>
                         <span className="d-flex align-items-center">
                           <StarRating
                             rating={Math.round(item.rating * 2) / 2}
@@ -87,9 +101,12 @@ const Products = () => {
                           </p>
                         </span>
                       </div>
-                      {item.stock<1&&
-                      <span className=" position-absolute end-0 top-0 m-1  bg-danger p-1 text-light"> out of stock</span>}
-                      
+                      {item.stock < 1 && (
+                        <span className=" position-absolute end-0 top-0 m-1  bg-danger p-1 text-light">
+                          {" "}
+                          out of stock
+                        </span>
+                      )}
                     </div>
                   </div>
                 );
@@ -100,8 +117,8 @@ const Products = () => {
         )}
       </div>
 
-    <Canvas handleCategory={(e)=>handleCategory(e)}/>
-      <Modal/>
+      <Canvas handleCategory={(e) => handleCategory(e)} />
+      <Modal />
     </div>
   );
 };
