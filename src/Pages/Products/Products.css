@@ -2,7 +2,7 @@
     cursor:pointer;
 }
 
-.two-line-text {
+.two-line-text.product{
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;  
