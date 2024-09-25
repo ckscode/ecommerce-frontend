@@ -1,96 +1,101 @@
-import React, { useEffect, useState } from "react";
-import './products.css'
+import React, { useContext, useEffect, useState } from "react";
+import "./products.css";
 import axios from "axios";
-
+import StarRating from "../../Components/Star";
+import { ContextApi } from "../../Api/DataApi";
+import Canvas from "../../Components/Canvas/Canvas";
 
 const Products = () => {
-  const [data, setData] = useState();
-  const [category,setCategory] = useState([]);
-  useEffect(() => {
-    axios.post("http://localhost:4000/api/data",{category:category})
-      .then((response) => setData(response.data.data))
-      .catch((err) => console.log(err));
-  }, [category]);
+  const { data, setCategory, category, setData } = useContext(ContextApi);
+  const handleCategory = (e) => {
+    if (category.includes(e)) {
+      setCategory(category.filter((ele) => ele !== e));
+    } else {
+      setCategory([...category, e]);
+    }
+  };
 
-const handleCategory = (e) =>{
-  if(category.includes(e)){
-   setCategory(category.filter((ele)=>ele!==e))
-  }else{
-    setCategory([...category,e])
-  }
-    
-}
-
-  console.log(data)
+  console.log(data);
 
   return (
     <div className="w-100 justify-content-center">
       <div className="w-100 px-2 d-flex justify-content-between align-items-center">
-        <div className="text-secondary fs-5 filter" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" >
-        <i className="fa-solid fa-filter"></i>
-         &nbsp;<span className="">Filter</span>
-        </div>
-      <div className="w-25 ms-auto d-flex rounded-pill border border-secondary">
-        <input
-          className="form-control border-0 rounded-pill"
-          type="search"
-          placeholder="Search"
-        />
-        <button
-          className="btn text-secondary border-0 rounded-pill"
-          type="submit"
+        <div
+          className="text-secondary fs-5 filter"
+          type="button"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#offcanvasWithBothOptions"
         >
-        <i className="fa-solid fa-magnifying-glass"></i>
-        </button>
-      </div> 
+          <i className="fa-solid fa-filter"></i>
+          &nbsp;<span className="">Filter</span>
+        </div>
+        <div className="w-25 ms-auto d-flex rounded-pill border border-secondary">
+          <input
+            className="form-control border-0 rounded-pill"
+            type="search"
+            placeholder="Search"
+          />
+          <button
+            className="btn text-secondary border-0 rounded-pill"
+            type="submit"
+          >
+            <i className="fa-solid fa-magnifying-glass"></i>
+          </button>
+        </div>
       </div>
       <div className="row w-100 mx-auto">
-        {data!==undefined?<>
-          {data&&data.map((item, index) => {
-            return (
-              <div key={item.id} className="col-sm-6 col-md-4 col-lg-3 my-3">
-                <div  className="card shadow-sm p-1">
-                  <img className="mx-auto card-img-top" src={item.thumbnail} />
-                  <div className="card-body">
-                    <h4>${item.price}</h4>
-                    <h5>{item.title}</h5>
-                    <h6 className="">{item.brand}</h6>
+        {data !== undefined ? (
+          <>
+            {data &&
+              data.map((item, index) => {
+                return (
+                  <div
+                    key={item.id}
+                    className="col-sm-6 col-md-4 col-lg-3 my-3"
+                  >
+                    <div className="card shadow-sm p-1">
+                      <img
+                        className="mx-auto card-img-top"
+                        src={item.thumbnail}
+                      />
+                      <div className="card-body">
+                        <div className="d-flex align-items-center">
+                          <h2 className="m-0 me-2">${item.price} </h2>
+                          <span className="text-secondary">
+                            <del>
+                              $
+                              {Math.round(
+                                item.price +
+                                  item.price * (item.discountPercentage / 100)
+                              )}
+                            </del>{" "}
+                            <span className="text-dark">
+                              ({Math.round(item.discountPercentage)}% off)
+                            </span>
+                          </span>
+                        </div>
+                        <h4 className="my-1">{item.title}</h4>
+                        <p className="two-line-text">{item.description}</p>
+                        <span className="d-flex align-items-center">
+                          <StarRating
+                            rating={Math.round(item.rating * 2) / 2}
+                          />
+                          <p className="m-0 mt-1">
+                            &nbsp;{Math.round(item.rating * 2) / 2}
+                          </p>
+                        </span>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-            );
-          })}</>:""}
-       
+                );
+              })}
+          </>
+        ) : (
+          ""
+        )}
       </div>
 
-
-
-<div className="offcanvas offcanvas-start" data-bs-scroll="true"  id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
-  <div className="offcanvas-header">
-    <h5 className="offcanvas-title" id="offcanvasWithBothOptionsLabel">Select Product Category</h5>
-    <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-  </div>
-  <div className="offcanvas-body">
-    <div className="d-flex align-items-center mb-3">
-    <input id='smartphones'  name='category'type="checkbox" value='smartphones' onChange={(e)=>handleCategory(e.target.value)}/>
-    <label htmlFor="smartphones">&nbsp;Smartphones</label>
-    </div>
-    <div className="d-flex align-items-center mb-3">
-    <input id='laptops'  name='category'type="checkbox" value='laptops' onChange={(e)=>handleCategory(e.target.value)}/>
-    <label htmlFor="laptops">&nbsp;Laptops</label>
-    </div>
-    <div className="d-flex align-items-center mb-3">
-    <input id='fragrances'  name='category'type="checkbox" value='fragrances' onChange={(e)=>handleCategory(e.target.value)}/>
-    <label htmlFor="fragrances">&nbsp;Fragrances</label>
-    </div>
-    <div className="d-flex align-items-center mb-3">
-    <input id='skincare'  name='category'type="checkbox" value='skincare' onChange={(e)=>handleCategory(e.target.value)}/>
-    <label htmlFor="skincare">&nbsp;Skin care</label>
-    </div>
-  </div>
-</div>
-
-
+    <Canvas handleCategory={(e)=>handleCategory(e)}/>
     </div>
   );
 };
