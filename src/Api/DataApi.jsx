@@ -9,7 +9,7 @@ export const ContextProvider = ({children}) =>{
     const [category,setCategory] = useState([]);
     const [product,setProduct] = useState();
     useEffect(() => {
-      axios.post("http://localhost:4000/api/data",{category:category})
+      axios.post(`${process.env.REACT_APP_API_URL}/api/data`,{category:category})
         .then((response) => setData(response.data.data))
         .catch((err) => console.log(err));
     }, [category]);
@@ -17,7 +17,7 @@ export const ContextProvider = ({children}) =>{
     const getProduct = async(id) =>{
         try{
             setProduct([])
-           await axios.get(`http://localhost:4000/api/productdata/${id}`)
+           await axios.get(`${process.env.REACT_APP_API_URL}/api/productdata/${id}`)
            .then((res)=>setProduct(res.data.data)).catch(err=>console.log(err))
         }catch(error){
             console.log(error)

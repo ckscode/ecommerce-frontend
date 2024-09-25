@@ -1,11 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./products.css";
-import axios from "axios";
 import StarRating from "../../Components/Star";
 import { ContextApi } from "../../Api/DataApi";
 import Canvas from "../../Components/Canvas/Canvas";
 import Modal from "../../Components/Modal/Modal";
-import Carousel from "../../Components/Hero/Carousel";
+
 
 const Products = () => {
   const { data, setCategory, category, setData, getProduct } =

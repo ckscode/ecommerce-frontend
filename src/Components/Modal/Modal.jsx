@@ -9,7 +9,7 @@ const Modal = () => {
     <div
       className="modal fade"
       id="exampleModal"
-      tabindex="-1"
+      tabIndex="-1"
       aria-labelledby="exampleModalLabel"
       aria-hidden="true"
     >
@@ -46,7 +46,7 @@ const Modal = () => {
 
             {product?.stock < 6 && product?.stock > 0 ? (
               <p className="text-danger my-1">
-                Only {product.stock} left in stock!
+                Only {product?.stock} left in stock!
               </p>
             ) : (
               ""
